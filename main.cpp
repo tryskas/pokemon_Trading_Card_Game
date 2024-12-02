@@ -46,5 +46,7 @@ int main()
     cout << endl;
     player2.displayAction();
 
+    player1.useTrainer(2);
+
     return 0;
 }

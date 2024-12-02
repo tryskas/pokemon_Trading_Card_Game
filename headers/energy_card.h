@@ -9,6 +9,7 @@ class EnergyCard : public Card{
     public:
         EnergyCard(const string);
         void displayInfo() override;
+        string getEnergyType();
 };
 
 #endif

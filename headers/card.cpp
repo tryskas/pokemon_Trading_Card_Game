@@ -12,3 +12,6 @@ void Card::displayInfo(){
 void Card::setCardName(const string name){
     cardName = name;
 }
+string Card::getCardName(){
+    return cardName;
+}

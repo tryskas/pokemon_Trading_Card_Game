@@ -15,6 +15,7 @@ class Card{
         Card();
         virtual void displayInfo();
         void setCardName(const string);
+        string getCardName();
 };
 
 #endif

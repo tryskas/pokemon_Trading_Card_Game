@@ -5,7 +5,9 @@ PokemonCard::PokemonCard(const string name, const string type, const string fami
     : pokemonType(type), 
       familyName(family), 
       evolutionLevel(evolution), 
-      maxHP(max_hp), hp(current_hp) 
+      maxHP(max_hp), 
+      hp(max_hp),
+      energie(0)
 {
     setCardName(name);
     attacks.push_back(attack1);
@@ -13,20 +15,55 @@ PokemonCard::PokemonCard(const string name, const string type, const string fami
 }
 
 void PokemonCard::displayInfo() {
-    Card::displayInfo();
-    
-    cout << "Pokemon Type: " << pokemonType << endl;
-    cout << "Family Name: " << familyName << endl;
-    cout << "Evolution Level: " << evolutionLevel << endl;
-    cout << "Max HP: " << maxHP << endl;
-    cout << "Current HP: " << hp << endl;
-    
+    cout << "Pokemon Card - Name: " << getCardName()
+         << " , Type: " << pokemonType
+         << " , Evolution Level: " << evolutionLevel
+         << " of the family \"" << familyName
+         << " , HP: " << hp << "/" << maxHP << "\"" << endl;
+
     cout << "Attacks:" << endl;
     for (size_t i = 0; i < attacks.size(); ++i) {
-        cout << "  Attack " << (i + 1) << ":" << endl;
-        cout << "  Energy Cost: " << get<0>(attacks[i]) << endl;
-        cout << "  Current Energy Cost: " << get<1>(attacks[i]) << endl;
-        cout << "  Description: " << get<2>(attacks[i]) << endl;
-        cout << "  Damage: " << get<3>(attacks[i]) << endl;
+        auto [cost, currentEnergy, description, damage] = attacks[i];
+        cout << "Attack #" << i + 1 << ":" << endl;
+        cout << "  Attack cost: " << cost << endl;
+        cout << "  Current energy storage: " << currentEnergy << endl;
+        cout << "  Attack description: " << description << endl;
+        cout << "  Attack damage: " << damage << endl;
     }
+}
+int PokemonCard::getHP(){
+    return hp;
+}
+void PokemonCard::attachEnergy(int amount) {
+    energie += amount;
+
+    // Distribution de l'énergie vers les attaques
+    for (auto& attack : attacks) {
+        int& cost = get<0>(attack);
+        int& currentEnergy = get<1>(attack);
+
+        // Ajouter de l'énergie si l'attaque n'est pas encore complètement chargée
+        if (currentEnergy < cost) {
+            int energyNeeded = cost - currentEnergy;
+            int energyToAdd = min(amount, energyNeeded);
+            currentEnergy += energyToAdd;
+            amount -= energyToAdd;
+
+            if (amount <= 0) break; // Si toute l'énergie est utilisée, arrêter
+        }
+    }
+}
+void PokemonCard::takeDamage(int damage) {
+    hp -= damage;
+
+    if (hp < 0) {
+        hp = 0;
+    }
+
+    cout << getCardName() << " now has " << hp << " HP remaining." << endl;
+}
+
+
+vector<tuple<int, int, string, int>> PokemonCard::getAttacks(){
+    return attacks;
 }

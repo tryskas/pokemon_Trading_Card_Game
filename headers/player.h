@@ -23,8 +23,12 @@ class Player {
         void attachEnergyCard(int, int);
         void displayBench();
         void displayAction();
-        void attack(int, int, Player, int);
+        void attack(int, int, Player&, int);
         void useTrainer(int);
+        vector<Card*> getBenchCard();
+        vector<PokemonCard*> getActionCards();
+        string getPlayerName();
+
 };
 
 #endif

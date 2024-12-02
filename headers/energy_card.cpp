@@ -6,8 +6,10 @@ EnergyCard::EnergyCard(const string energy)
     setCardName("Energy");
 }
 
-void EnergyCard::displayInfo(){
-    Card::displayInfo();
-    
-    cout << "Energy Type: " << energyType << endl;
+void EnergyCard::displayInfo() {
+    cout << "Energy Card - Type: " << energyType << endl;
+}
+
+string EnergyCard::getEnergyType(){
+    return energyType;
 }
